@@ -50,6 +50,9 @@ import fr.irisa.diversify.annotations.Perforable;
  * @RequiredPort(name = "textEntered", type = PortType.MESSAGE, optional = true)
  * })
  */
+@DictionaryType({ 
+	@DictionaryAttribute(name = "filePath", dataType = String.class, defaultValue = "/home/barais/workspaces/spoonGWT/diversify/jcodec/test.mov", optional = false),
+	})
 @ComponentType
 public class JCodecStaticComponent extends AbstractComponentType implements
 		KeyListener, ProResDecoderPerforableInterface {
@@ -213,7 +216,7 @@ public class JCodecStaticComponent extends AbstractComponentType implements
 		vo.setVisible(true);
 
 		JCodecPacketSource pack = new JCodecPacketSource(new File(
-				"/tmp/test.mov"));
+				"/home/barais/workspaces/spoonGWT/diversify/jcodec/test.mov"));
 		video = new JCodecVideoSource(pack.getVideo());
 
 		List<? extends PacketSource> audioTracks = pack.getAudio();

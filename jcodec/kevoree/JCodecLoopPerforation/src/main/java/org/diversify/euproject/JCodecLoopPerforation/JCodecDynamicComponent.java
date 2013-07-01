@@ -47,7 +47,10 @@ import org.kevoree.framework.AbstractComponentType;
  * @RequiredPort(name = "textEntered", type = PortType.MESSAGE, optional = true)
  * })
  */
-@DictionaryType({ @DictionaryAttribute(name = "defaultValue", dataType = Integer.class, defaultValue = "1", optional = false) })
+@DictionaryType({ 
+	@DictionaryAttribute(name = "defaultValue", dataType = Integer.class, defaultValue = "1", optional = false),
+	@DictionaryAttribute(name = "filePath", dataType = String.class, defaultValue = "/home/barais/workspaces/spoonGWT/diversify/jcodec/test.mov", optional = false),
+	})
 @ComponentType
 public class JCodecDynamicComponent extends AbstractComponentType implements
 		KeyListener {
@@ -212,7 +215,7 @@ public class JCodecDynamicComponent extends AbstractComponentType implements
 		vo.setVisible(true);
 
 		JCodecPacketSource pack = new JCodecPacketSource(new File(
-				"/tmp/test.mov"));
+				"/home/barais/workspaces/spoonGWT/diversify/jcodec/test.mov"));
 		video = new JCodecVideoSource(pack.getVideo());
 
 		List<? extends PacketSource> audioTracks = pack.getAudio();
