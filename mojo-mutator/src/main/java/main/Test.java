@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -72,28 +73,29 @@ public class Test {
 					.getResource("fr/irisa/diversify/spoon/template/MemoryLeaksIntroduction.java").toURI();
 			//JarUtils.extractNestedJar(new URL("jar:"+uri.toURL().getFile().substring(0,uri.toURL().getFile().indexOf("!"))+"!/"),new File("/tmp")); 
 			
-			JarUtils.extractNestedJar(uri.toURL(),new File("/tmp"));
+			Path p1 = java.nio.file.Files.createTempDirectory("kevMut");
+			JarUtils.extractNestedJar(uri.toURL(),p1.toFile());
 			
 			uri = this.getClass().getClassLoader()
 					.getResource("fr/irisa/diversify/spoon/template/MemoryLeaksIntroduction.class").toURI();
-			JarUtils.extractNestedJar(uri.toURL(),new File("/tmp"));
+			JarUtils.extractNestedJar(uri.toURL(),p1.toFile());
 			
 			uri = this.getClass().getClassLoader()
 					.getResource("fr/irisa/diversify/spoon/template/ThreadIntroduction.class").toURI();
-			JarUtils.extractNestedJar(uri.toURL(),new File("/tmp"));
+			JarUtils.extractNestedJar(uri.toURL(),p1.toFile());
 
 			
 			uri = this.getClass().getClassLoader()
 					.getResource("fr/irisa/diversify/spoon/template/ThreadIntroduction.java").toURI();
 			
 			
-			URL u = JarUtils.extractNestedJar(uri.toURL(),new File("/tmp"));
+			URL u = JarUtils.extractNestedJar(uri.toURL(),p1.toFile());
 			File f1 = new File(u.getFile());
 //			CtFolderZip f;
 
 
-//			System.err.println(f1.getParentFile().getAbsolutePath());
-			builder.addTemplateSource(new File("/tmp/home/barais/.m2/repository/fr/irisa/diversify/mojo-mutator-maven-plugins/0.0.1-SNAPSHOT/mojo-mutator-maven-plugins-0.0.1-SNAPSHOT.jar-contents/"));//			f1.getParentFile());
+			//System.err.println("toto"  + f1.getParentFile().getAbsolutePath());
+			builder.addTemplateSource(f1.getParentFile());
 			
 		} catch (IOException e1) {
 			e1.printStackTrace();

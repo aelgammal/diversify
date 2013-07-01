@@ -370,7 +370,7 @@ public final class JarUtils
       if( archiveDir.exists() == false && archiveDir.mkdirs() == false )
          throw new IOException("Failed to create contents directory for archive, path="+archiveDir.getAbsolutePath());
       String archiveName = jarConn.getEntryName();
-      System.err.println(archiveDir +" "+ archiveName);
+      //System.err.println(archiveDir +" "+ archiveName);
       File archiveFile = new File(archiveDir, archiveName);
       File archiveParentDir = archiveFile.getParentFile();
       if( archiveParentDir.exists() == false && archiveParentDir.mkdirs() == false )
