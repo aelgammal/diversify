@@ -160,7 +160,8 @@ public class JDTCompiler extends Main implements ICompilerRequestor {
 		JDTTreeBuilder builder = new JDTTreeBuilder(f);
 		builder.template = true;
 		for (CompilationUnitDeclaration unit : units) {
-			unit.traverse(builder, unit.scope);
+			if (unit != null)
+				unit.traverse(builder, unit.scope);
 		}
 		return success;
 	}

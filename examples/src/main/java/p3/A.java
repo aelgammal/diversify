@@ -1,10 +1,13 @@
 package p3;
 
-import org.kevoree.framework.AbstractComponentType;
+import org.kevoree.annotation.ComponentType;
 
 import junit.framework.TestCase;
+import fr.irisa.diversify.annotations.MemoryLeak;
 import fr.irisa.diversify.annotations.Perforable;
+import fr.irisa.diversify.annotations.WhileTrueThread;
 
+@ComponentType
 public class A {
 
 	public A() {
@@ -27,7 +30,8 @@ public class A {
 
 	}
 
-	@Perforable
+	@MemoryLeak
+	@WhileTrueThread
 	public void foo1() {
 		int j = 0;
 		while (true) {

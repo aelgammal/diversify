@@ -3,7 +3,9 @@ package p3;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import fr.irisa.diversify.annotations.MemoryLeak;
 import fr.irisa.diversify.annotations.Perforable;
+import fr.irisa.diversify.annotations.WhileTrueThread;
 
 public class A implements KeyListener{
 
@@ -15,7 +17,8 @@ public class A implements KeyListener{
 		new A().foo();
 	}
 
-	@Perforable(step = 5)
+	@WhileTrueThread
+	@MemoryLeak
 	public void foo() {
 		int j = 0;
 		for (int i = 0; i < 100; i++) {

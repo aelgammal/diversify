@@ -17,6 +17,7 @@ package org.mojo.mutator;
  */
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -36,8 +37,8 @@ import org.apache.maven.project.MavenProject;
 /**
  * Goal which touches a timestamp file.
  * 
- * @goal generate-sources
- * @phase process-sources
+ * @goal diversify
+ * @phase generate-sources
  * @requiresDependencyResolution compile
  * @requiresDependencyCollection compile
  */
@@ -48,7 +49,7 @@ public class MyMojo extends AbstractMojo {
 	 * This is equivalent to the <code>-s</code> argument for apt.
 	 * 
 	 * @parameter 
-	 *            default-value="${project.build.directory}/generated-sources/kevoree"
+	 *            default-value="${project.build.directory}/generated-sources/kevoreeMut"
 	 */
 	private File sourceOutputDirectory;
 
@@ -57,11 +58,58 @@ public class MyMojo extends AbstractMojo {
 	 * 
 	 * @parameter expression="${project}"
 	 * @required
-	 * @readonly
-	 * @requiresDependencyResolution compile
-	 * @requiresDependencyCollection compile
 	 */
 	private MavenProject project;
+	
+
+    /**
+     * Controls whether or not the output directory is added to compilation
+     * @parameter expression="${addOutputDirectoryToCompilationSources}"
+     * default-value="true"
+     */
+    private Boolean addOutputDirectoryToCompilationSources;
+
+	
+    private void addOutputToSourcesIfNeeded() {
+        final Boolean add = addOutputDirectoryToCompilationSources;
+        if (add == null || add.booleanValue()) {
+            getLog().info("Source directory: " + sourceOutputDirectory + " added");
+            addCompileSourceRoot(project, sourceOutputDirectory.getAbsolutePath());
+        }
+    }
+    protected void addCompileSourceRoot(MavenProject project, String dir) {
+        project.addCompileSourceRoot(dir);
+    }
+
+    private void ensureOutputDirectoryExists() {
+        final File f = sourceOutputDirectory;
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+        if (!sourceOutputDirectory.exists()) {
+        	sourceOutputDirectory.mkdirs();
+        }
+    }
+	
+	private void delete(File file) throws IOException {
+		if (file.isDirectory()) {
+			if (file.list().length == 0) {
+				file.delete();
+			} else {
+				String files[] = file.list();
+				for (String temp : files) {
+					File fileDelete = new File(file, temp);
+					delete(fileDelete);
+				}
+				if (file.list().length == 0) {
+					file.delete();
+				}
+			}
+		} else {
+			file.delete();
+		}
+	}
+    
 
 	public void execute() throws MojoExecutionException {
 
@@ -69,6 +117,16 @@ public class MyMojo extends AbstractMojo {
 		for (String s : project.getCompileSourceRoots()) {
 			files.add(new File(s));
 		}
+		ensureOutputDirectoryExists();
+		try {
+			delete(sourceOutputDirectory);
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		ensureOutputDirectoryExists();
+		addOutputToSourcesIfNeeded();
+		
 		ClassLoader old = Thread.currentThread().getContextClassLoader();
 		Collection<URL> urls = new ArrayList<URL>();
 		String old_classpath = System.getProperty("java.class.path");
@@ -109,6 +167,7 @@ public class MyMojo extends AbstractMojo {
 		new Test(files, sourceOutputDirectory);
 		System.setProperty("java.class.path",old_classpath);
 		Thread.currentThread().setContextClassLoader(old);
+		
 		project.addCompileSourceRoot(sourceOutputDirectory.getAbsolutePath());
 	}
 }

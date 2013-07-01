@@ -2,10 +2,14 @@ package main;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import spoon.examples.tracing.processing.MemoryLeaksProcessor;
+import spoon.examples.tracing.processing.ThreadIntroductionProcessor;
 import spoon.processing.AbstractProcessor;
 import spoon.processing.Environment;
 import spoon.processing.ProcessingManager;
@@ -32,12 +36,10 @@ public class Test {
 		
 		Test t = new Test(files, new File(srcgenfolderstatic));
 	}
-	private File srcfolder ; 
 	private File srcgenfolder; 
 
 	
 	public Test(List<File> srcfolders, File srcgenfolder ) {
-		this.srcfolder = srcfolder;
 		this.srcgenfolder =srcgenfolder;
 		this.initSpoon(srcfolders);
 	}
@@ -53,10 +55,10 @@ public class Test {
 		Factory factory = new Factory(f, env);
 
 		MyBuilder builder = new MyBuilder(factory);
-
 		
 		
-//		try {
+		
+		try {
 			for (File file : folderToParse) {
 				try {
 					builder.addInputSource(file);
@@ -64,15 +66,41 @@ public class Test {
 					e.printStackTrace();
 				}
 			}
-/*			java.net.URI uri = this.getClass().getClassLoader()
-					.getResource("fr/irisa/diversify/spoon/template").toURI();
-			builder.addTemplateSource(new File(uri));
+			
+			
+			java.net.URI uri = this.getClass().getClassLoader()
+					.getResource("fr/irisa/diversify/spoon/template/MemoryLeaksIntroduction.java").toURI();
+			//JarUtils.extractNestedJar(new URL("jar:"+uri.toURL().getFile().substring(0,uri.toURL().getFile().indexOf("!"))+"!/"),new File("/tmp")); 
+			
+			JarUtils.extractNestedJar(uri.toURL(),new File("/tmp"));
+			
+			uri = this.getClass().getClassLoader()
+					.getResource("fr/irisa/diversify/spoon/template/MemoryLeaksIntroduction.class").toURI();
+			JarUtils.extractNestedJar(uri.toURL(),new File("/tmp"));
+			
+			uri = this.getClass().getClassLoader()
+					.getResource("fr/irisa/diversify/spoon/template/ThreadIntroduction.class").toURI();
+			JarUtils.extractNestedJar(uri.toURL(),new File("/tmp"));
+
+			
+			uri = this.getClass().getClassLoader()
+					.getResource("fr/irisa/diversify/spoon/template/ThreadIntroduction.java").toURI();
+			
+			
+			URL u = JarUtils.extractNestedJar(uri.toURL(),new File("/tmp"));
+			File f1 = new File(u.getFile());
+//			CtFolderZip f;
+
+
+//			System.err.println(f1.getParentFile().getAbsolutePath());
+			builder.addTemplateSource(new File("/tmp/home/barais/.m2/repository/fr/irisa/diversify/mojo-mutator-maven-plugins/0.0.1-SNAPSHOT/mojo-mutator-maven-plugins-0.0.1-SNAPSHOT.jar-contents/"));//			f1.getParentFile());
+			
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		try {
 			builder.build();
 		} catch (Exception e) {
@@ -80,7 +108,12 @@ public class Test {
 		}
 		ProcessingManager pm = new QueueProcessingManager(factory);
 		PerforableProcessor tp = new PerforableProcessor();
+		MemoryLeaksProcessor mp = new MemoryLeaksProcessor();
+		ThreadIntroductionProcessor thp = new ThreadIntroductionProcessor();
+		
 		pm.addProcessor(tp);
+		pm.addProcessor(mp);
+		pm.addProcessor(thp);
 		//TODO Not all;
 		TypeReferenceScanner refall = new TypeReferenceScanner();
 		refall.scan(Factory.getLauchingFactory().Package().getAllRoots());
@@ -108,35 +141,18 @@ public class Test {
 
 		
 		
-		if (srcgenfolder.exists()) {
+/*		if (srcgenfolder.exists()) {
 			try {
 				delete(srcgenfolder);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		AbstractProcessor p = new JavaOutputProcessor(srcgenfolder);
 		pm.addProcessor(p);
 		pm.process();
 		factory.getEnvironment().reportEnd();
 	}
 
-	public void delete(File file) throws IOException {
-		if (file.isDirectory()) {
-			if (file.list().length == 0) {
-				file.delete();
-			} else {
-				String files[] = file.list();
-				for (String temp : files) {
-					File fileDelete = new File(file, temp);
-					delete(fileDelete);
-				}
-				if (file.list().length == 0) {
-					file.delete();
-				}
-			}
-		} else {
-			file.delete();
-		}
-	}
+
 }
