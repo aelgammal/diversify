@@ -1,9 +1,5 @@
 package spoon.examples.tracing.template;
 
-import java.util.List;
-
-import spoon.reflect.declaration.CtExecutable;
-import spoon.reflect.declaration.CtParameter;
 import spoon.template.Local;
 import spoon.template.Parameter;
 import spoon.template.StatementListTemplateParameter;
@@ -57,7 +53,7 @@ public class TestTemplat extends StatementListTemplateParameter
 	 */
 	@Local
 	public void statements() {
-		System.out.println("l'annotation " +_annotationname_ + " avec le parametre " + _annotation_parameter_ + " a ete placé sur la méthode "+ _methodname_);;
+		System.out.println("l'annotation " +_annotationname_ + " avec le parametre " + _annotation_parameter_ + " a ete placÃ© sur la mÃ©thode "+ _methodname_);;
 	}
 
 	

@@ -1,24 +1,14 @@
 package p3;
 
-import org.kevoree.annotation.ComponentType;
-
-import junit.framework.TestCase;
 import fr.irisa.diversify.annotations.MemoryLeak;
 import fr.irisa.diversify.annotations.Perforable;
 import fr.irisa.diversify.annotations.WhileTrueThread;
 
-@ComponentType
 public class A {
-
-	public A() {
-		
-	}
-
 	public static void main(String[] args) {
 		new A().foo();
+        new A().foo1();
 	}
-	
-	TestCase a;
 
 	@Perforable(step = 5)
 	public void foo() {

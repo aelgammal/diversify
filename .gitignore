@@ -1,3 +1,9 @@
 /.metadata/
 /sphinx4/
 /TestJFreeCharts/
+**/target
+**.idea
+**.iml
+**.DS_STORE
+**.classpath
+**.project
