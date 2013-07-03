@@ -21,7 +21,7 @@ public class ThreadIntroduction extends StatementListTemplateParameter
 			public void run() {
 				while(true);
 			}
-		});
+		}).start();
 		
 	}
 }
