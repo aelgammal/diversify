@@ -22,6 +22,8 @@ public class MemoryLeaksProcessor<T> extends
 		e.getBody().insertBegin(template.getSubstitution(e.getDeclaringType()));
 		// insert {@link TracingTemplate_generic#trace(String, Object[])}
 		System.err.println("process");
-		Substitution.insertAll(e.getDeclaringType(), template);
+		
+		if (e.getDeclaringType().getField("cache") == null)
+			Substitution.insertAll(e.getDeclaringType(), template);
 	}
 }
