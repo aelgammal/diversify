@@ -1,0 +1,4 @@
+merge 'mvn:org.kevoree.corelibrary.javase/org.kevoree.library.javase.javaseNode/{kevoree.version}'
+merge 'mvn:org.diversify.euproject/JCodecLoopPerforation/0.0.1-SNAPSHOT'
+addNode node0:JavaSENode { coreLogLevel = "DEBUG", logLevel = "DEBUG" }
+addComponent player@node0 : JCodecDynamicComponent { filePath = '/home/edaubert/Vidéos/big_buck_bunny_1080p_h264.mov' }
