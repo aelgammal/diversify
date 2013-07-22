@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.jcodec.common.io.Buffer;
 import org.jcodec.common.io.ReaderBE;
-import org.junit.Assert;
 
 /**
  * This class is part of JCodec ( www.jcodec.org ) This software is distributed
@@ -88,7 +87,6 @@ public class MTSDemuxer extends MPSDemuxer {
         int marker = iis.read();
         if (marker == -1)
             return null;
-        Assert.assertEquals(0x47, marker);
         int guidFlags = (int) ReaderBE.readInt16(iis);
         int guid = (int) guidFlags & 0x1fff;
         int payloadStart = (guidFlags >> 14) & 0x1;

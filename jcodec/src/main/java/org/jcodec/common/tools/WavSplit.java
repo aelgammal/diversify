@@ -2,7 +2,6 @@ package org.jcodec.common.tools;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -11,7 +10,6 @@ import java.io.OutputStream;
 
 import org.jcodec.codecs.wav.StringReader;
 import org.jcodec.codecs.wav.WavHeader;
-import org.junit.Assert;
 
 /**
  * This class is part of JCodec ( www.jcodec.org )
@@ -38,7 +36,6 @@ public class WavSplit {
 
         System.out.println("WAV " + rate + " " + channels + " channels, " + bits + "bit");
 
-        Assert.assertEquals(2, wavHeader.fmt.numChannels);
         int dataOffset = wavHeader.dataOffset;
         BufferedInputStream is = new BufferedInputStream(new FileInputStream(s));
         StringReader.sureSkip(is, dataOffset);

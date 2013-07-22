@@ -1,12 +1,9 @@
 package org.jcodec.common.io;
 
-import static junit.framework.Assert.assertTrue;
 import gnu.trove.list.array.TIntArrayList;
 
 import java.io.IOException;
 import java.io.PrintStream;
-
-import junit.framework.Assert;
 
 /**
  * This class is part of JCodec ( www.jcodec.org ) This software is distributed

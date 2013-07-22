@@ -1,6 +1,5 @@
 package org.jcodec.algo;
 
-import org.junit.Assert;
 
 /**
  * A filter which applies Gaussian blur to an image. This is a subclass of
@@ -25,7 +24,6 @@ public class StreamGauss {
                 val += samples[i + j] * vect[j];
             }
             int v = val >> 10;
-            Assert.assertTrue(v > 0);
             out[i] = v;
         }
     }

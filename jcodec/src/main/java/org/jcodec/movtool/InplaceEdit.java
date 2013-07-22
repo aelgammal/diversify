@@ -5,10 +5,8 @@ import static org.jcodec.common.JCodecUtil.bufin;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.Assert;
-
-import org.jcodec.common.io.RAInputStream;
 import org.jcodec.common.io.FileRAOutputStream;
+import org.jcodec.common.io.RAInputStream;
 import org.jcodec.containers.mp4.MP4Util;
 import org.jcodec.containers.mp4.MP4Util.Atom;
 import org.jcodec.containers.mp4.boxes.MovieBox;
@@ -30,7 +28,6 @@ public abstract class InplaceEdit {
         try {
             fi = bufin(f);
             Atom moov = getMoov(fi);
-            Assert.assertNotNull(moov);
             MovieBox movBox = (MovieBox) moov.parseBox(fi);
             apply(movBox);
             if (movBox.calcSize() > moov.getHeader().getSize())

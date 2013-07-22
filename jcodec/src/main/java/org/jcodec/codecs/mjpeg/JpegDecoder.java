@@ -11,7 +11,6 @@ import java.nio.IntBuffer;
 import org.apache.commons.io.FileUtils;
 import org.jcodec.common.dct.DCT;
 import org.jcodec.common.dct.IntDCT;
-import org.junit.Test;
 
 /**
  * This class is part of JCodec ( www.jcodec.org )
@@ -130,7 +129,6 @@ public class JpegDecoder {
         decodeBlock(block, coded.getQuantLum(), coded.getQuantChrom());
     }
 
-    @Test
     public void testPerformance() throws IOException {
         byte[] jpg = FileUtils.readFileToByteArray(new File(
                 "src/test/resources/fr.jpg"));

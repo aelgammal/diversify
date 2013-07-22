@@ -14,8 +14,6 @@ import java.util.List;
 
 import javax.sound.sampled.AudioFormat;
 
-import junit.framework.Assert;
-
 import org.jcodec.common.io.Buffer;
 import org.jcodec.common.io.RAOutputStream;
 import org.jcodec.common.model.Packet;
@@ -314,8 +312,7 @@ public class MP4Muxer {
         }
 
         private void outChunkIfNeeded() throws IOException {
-            Assert.assertTrue(tgtChunkDurationUnit == Unit.FRAME || tgtChunkDurationUnit == Unit.SEC);
-
+       
             if (tgtChunkDurationUnit == Unit.FRAME
                     && framesInCurChunk * tgtChunkDuration.getDen() == tgtChunkDuration.getNum()) {
                 outChunk();
@@ -624,8 +621,7 @@ public class MP4Muxer {
         }
 
         private void outChunkIfNeeded(int entryNo) throws IOException {
-            Assert.assertTrue(tgtChunkDurationUnit == Unit.FRAME || tgtChunkDurationUnit == Unit.SEC);
-
+            
             if (tgtChunkDurationUnit == Unit.FRAME
                     && curChunk.size() * tgtChunkDuration.getDen() == tgtChunkDuration.getNum()) {
                 outChunk(entryNo);

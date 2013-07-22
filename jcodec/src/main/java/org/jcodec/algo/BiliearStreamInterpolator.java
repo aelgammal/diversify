@@ -9,7 +9,6 @@ import org.jcodec.codecs.wav.WavHeader;
 import org.jcodec.codecs.wav.WavInput;
 import org.jcodec.codecs.wav.WavOutput;
 import org.jcodec.common.model.Rational;
-import org.junit.Assert;
 
 /**
  * This class is part of JCodec ( www.jcodec.org ) This software is distributed
@@ -60,11 +59,7 @@ public class BiliearStreamInterpolator extends StreamInterpolator {
     private int c = 0;
 
     private final int interpolateH(int s0, int s1, int shift) {
-        Assert.assertTrue(s0 >= 0);
-        Assert.assertTrue(s1 >= 0);
-        Assert.assertTrue(shift < (MASK + 1));
         int s = ((s0 << SHIFT) + shift * (s1 - s0) + ROUND) >> SHIFT;
-        Assert.assertTrue("" + s + ", " + s0 + ", " + s1 + ", " + (c++), s >= 0);
         return s;
     }
 

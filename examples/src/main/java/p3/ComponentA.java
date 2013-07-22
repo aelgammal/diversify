@@ -18,7 +18,7 @@ import org.kevoree.framework.MessagePort;
 public class ComponentA extends AbstractComponentType {
 
 	public ComponentA() {
-		
+			
 	}
 
     @Start

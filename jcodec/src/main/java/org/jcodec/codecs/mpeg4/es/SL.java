@@ -4,8 +4,6 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Assert;
-
 /**
  * This class is part of JCodec ( www.jcodec.org ) This software is distributed
  * under FreeBSD License
@@ -28,7 +26,6 @@ public class SL extends Descriptor {
     }
 
     protected void parse(InputStream input) throws IOException {
-        Assert.assertEquals(0x2, input.read());
     }
 
     public static int tag() {
